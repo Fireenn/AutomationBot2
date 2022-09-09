@@ -1,3 +1,5 @@
+import threading
+
 import PySimpleGUI as sg
 import dotenv
 from selenium.webdriver.chrome import webdriver
@@ -102,12 +104,21 @@ def draw_travel_dashboard(browser: webdriver, travel: Travel):
 
     window = sg.Window("Travel", layout, size=(300, 300))
 
+    thread = None
+
     while True:
         event, value = window.read()
 
         if event == sg.WIN_CLOSED:
             break
 
+        if event == "Automate":
+            thread = threading.Thread(target=travel.begin_travel, daemon=True)
+            thread.start()
+        if event == "Stop":
+            travel.traveling = False
+
+    travel.__del__()
     window.close()
 
     draw_dashboard(browser)

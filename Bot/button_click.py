@@ -29,3 +29,9 @@ class Button:
             self.button.click()
             time.sleep(3)
 
+    def check_button_enabled(self) -> bool:
+
+        if self.button:
+            return self.button.is_enabled()
+        else:
+            return False
