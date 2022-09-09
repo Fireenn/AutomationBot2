@@ -7,6 +7,8 @@ from Bot.login import Login
 
 import os
 
+from Bot.travel import Travel
+
 
 def save_login_credentials(username, password):
 
@@ -28,8 +30,8 @@ def draw_login() -> webdriver:
     layout = [
         [sg.Text("Username", size=(15, 1)), sg.InputText(key='username', font=16, default_text=os.environ.get('login_username'))],
         [sg.Text("Password", size=(15, 1)), sg.InputText(key='password', font=16,password_char='*', default_text=os.environ.get('login_password'))],
+        [sg.Checkbox('Save Credentials', key="save_credentials")],
         [sg.Button("Ok")],
-        [sg.Checkbox('Save Credentials', key="save_credentials")]
     ]
 
     window = sg.Window('Login Info', layout)
@@ -74,7 +76,7 @@ def draw_dashboard(browser: webdriver):
         [sg.Button("Travel")],
     ]
 
-    window = sg.Window("Dashboard", layout)
+    window = sg.Window("Dashboard", layout, size=(300, 300))
 
     while True:
 
@@ -83,8 +85,29 @@ def draw_dashboard(browser: webdriver):
             break
 
         if event == 'Travel':
-            print("In")
+            window.close()
 
-        print(event)
+            travel = Travel(browser)
+            travel.move_to_travel_page()
+            draw_travel_dashboard(browser, travel)
 
     window.close()
+
+
+def draw_travel_dashboard(browser: webdriver, travel: Travel):
+
+    layout = [
+        [sg.Button('Automate'), sg.Button('Stop')],
+    ]
+
+    window = sg.Window("Travel", layout, size=(300, 300))
+
+    while True:
+        event, value = window.read()
+
+        if event == sg.WIN_CLOSED:
+            break
+
+    window.close()
+
+    draw_dashboard(browser)
