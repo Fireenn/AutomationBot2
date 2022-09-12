@@ -6,11 +6,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+from Bot.browser import Browser
 
-class Login:
+
+class Login(Browser):
 
     def __init__(self, browser: webdriver, username: str, password: str):
-        self.browser: webdriver = browser
+        super().__init__(browser)
         self.username = username
         self.password = password
 

@@ -4,8 +4,8 @@ from selenium.webdriver.chrome.options import Options
 
 class Browser:
 
-    def __init__(self):
-        self._browser = None
+    def __init__(self, browser: webdriver = None):
+        self._browser: webdriver = browser
 
     @property
     def browser(self):
@@ -27,3 +27,6 @@ class Browser:
 
     def close(self):
         self.browser.close()
+
+    def check_url(self, check_string) -> bool:
+        return check_string in self.browser.current_url

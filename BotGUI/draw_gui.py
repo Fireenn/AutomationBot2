@@ -104,7 +104,6 @@ def draw_travel_dashboard(browser: webdriver, travel: Travel):
 
     window = sg.Window("Travel", layout, size=(300, 300))
 
-    thread = None
 
     while True:
         event, value = window.read()
@@ -117,6 +116,9 @@ def draw_travel_dashboard(browser: webdriver, travel: Travel):
             thread.start()
         if event == "Stop":
             travel.traveling = False
+
+        # if event == "Automate":
+        #     travel.begin_travel()
 
     travel.__del__()
     window.close()
